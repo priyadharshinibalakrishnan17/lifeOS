@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sensora | Smart Home IoT</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: white;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.3), transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.3), transparent 30%),
+                linear-gradient(135deg, #020617, #0f172a, #172554);
+        }
+
+        nav {
+            width: 100%;
+            padding: 22px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .brand span {
+            color: #60a5fa;
+        }
+
+        .login-btn {
+            padding: 12px 22px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .hero {
+            min-height: 78vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .icon {
+            font-size: 75px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 7vw, 75px);
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            background: linear-gradient(90deg, #60a5fa, #c084fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .description {
+            max-width: 650px;
+            margin: auto;
+            color: #cbd5e1;
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        .start-btn {
+            display: inline-block;
+            margin-top: 35px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 17px;
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.35);
+            transition: 0.2s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .features {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 20px 70px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card .feature-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="brand">
+            💡 Sen<span>sora</span>
+        </div>
+
+        <a href="login.html" class="login-btn">
+            Login
+        </a>
+    </nav>
+
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="icon">🏠💡</div>
+
+            <h1>
+                Smart Living with
+                <span>Sensora</span>
+            </h1>
+
+            <p class="description">
+                Monitor your environment, control appliances,
+                automate lighting and visualize your IoT data
+                from one intelligent dashboard.
+            </p>
+
+            <a href="login.html" class="start-btn">
+                Open Smart Dashboard →
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <section class="features">
+
+        <div class="feature-card">
+            <div class="feature-icon">🌡️</div>
+            <h3>Environment</h3>
+            <p>
+                Monitor DHT11 temperature and humidity values.
+            </p>
+        </div>
+
+
+        <div class="feature-card">
+            <div class="feature-icon">☀️</div>
+            <h3>Light Monitoring</h3>
+            <p>
+                Track ambient light using the LDR sensor.
+            </p>
+        </div>
+
+
+        <div class="feature-card">
+            <div class="feature-icon">💡</div>
+            <h3>Appliance Control</h3>
+            <p>
+                Control the connected bulb from Firebase.
+            </p>
+        </div>
+
+
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>Automation</h3>
+            <p>
+                Automatically control lighting using LDR values.
+            </p>
+        </div>
+
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Data History</h3>
+            <p>
+                Visualize and export your historical IoT data.
+            </p>
+        </div>
+
+    </section>
+
+</body>
+
+</html>
