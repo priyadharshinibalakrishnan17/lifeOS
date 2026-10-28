@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Sensora</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(circle at top left,
+                rgba(34, 197, 94, 0.25),
+                transparent 30%),
+
+                radial-gradient(circle at bottom right,
+                rgba(139, 92, 246, 0.3),
+                transparent 30%),
+
+                linear-gradient(
+                    135deg,
+                    #020617,
+                    #172554
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+        }
+
+
+        .login-box {
+
+            width: 420px;
+
+            max-width: 100%;
+
+            background: white;
+
+            padding: 42px;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 25px 60px
+                rgba(0,0,0,0.4);
+
+        }
+
+
+        .logo {
+
+            width: 85px;
+
+            height: 85px;
+
+            margin:
+                0 auto
+                18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 22px;
+
+            font-size: 42px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+        }
+
+
+        .brand {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .brand h1 {
+
+            font-size: 30px;
+
+            color: #111827;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .brand p {
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+        }
+
+
+        .input-group {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #374151;
+
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border:
+
+                1px solid
+                #d1d5db;
+
+            border-radius: 12px;
+
+            font-size: 15px;
+
+            outline: none;
+
+        }
+
+
+        input:focus {
+
+            border-color:
+                #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37,99,235,0.12);
+
+        }
+
+
+        button {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+        }
+
+
+        button:hover {
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+        .message {
+
+            min-height: 20px;
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            font-size: 14px;
+
+        }
+
+
+        .back {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            text-decoration: none;
+
+            color: #2563eb;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="login-box">
+
+
+        <div class="logo">
+            💡
+        </div>
+
+
+        <div class="brand">
+
+            <h1>Sensora</h1>
+
+            <p>
+                Smart Home IoT Dashboard
+            </p>
+
+        </div>
+
+
+
+        <div class="input-group">
+
+            <label>
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+            >
+
+        </div>
+
+
+
+        <div class="input-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+            >
+
+        </div>
+
+
+
+        <button id="loginBtn">
+
+            Sign In to Dashboard →
+
+        </button>
+
+
+
+        <p
+            class="message"
+            id="message"
+        ></p>
+
+
+
+        <a
+            href="index.html"
+            class="back"
+        >
+
+            ← Back to Home
+
+        </a>
+
+
+    </div>
+
+
+
+    <script type="module">
+
+
+        import {
+
+            initializeApp
+
+        }
+
+        from
+
+        "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+
+
+        import {
+
+            getAuth,
+
+            signInWithEmailAndPassword
+
+        }
+
+        from
+
+        "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+
+
+        /* YOUR SENSORA FIREBASE PROJECT */
+
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyB7Kg_G_oKJ3qTmwyvHL7ou4GtnDzK_Tqw",
+
+            authDomain:
+                "sensora-94289.firebaseapp.com",
+
+            databaseURL:
+                "https://sensora-94289-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+            projectId:
+                "sensora-94289",
+
+            storageBucket:
+                "sensora-94289.firebasestorage.app",
+
+            messagingSenderId:
+                "953621638120",
+
+            appId:
+                "1:953621638120:web:e45f0a52f5dcd689f0125d",
+
+            measurementId:
+                "G-W34VES9JBW"
+
+        };
+
+
+
+        const app =
+
+            initializeApp(firebaseConfig);
+
+
+
+        const auth =
+
+            getAuth(app);
+
+
+
+        document
+
+        .getElementById("loginBtn")
+
+        .addEventListener(
+
+            "click",
+
+            async () => {
+
+
+                const email =
+
+                    document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+
+
+                const password =
+
+                    document
+                    .getElementById("password")
+                    .value;
+
+
+
+                const message =
+
+                    document
+                    .getElementById("message");
+
+
+
+                if (!email || !password) {
+
+
+                    message.style.color =
+                        "#dc2626";
+
+
+                    message.innerText =
+
+                        "Please enter email and password.";
+
+
+                    return;
+
+                }
+
+
+
+                try {
+
+
+                    await
+
+                    signInWithEmailAndPassword(
+
+                        auth,
+
+                        email,
+
+                        password
+
+                    );
+
+
+
+                    message.style.color =
+                        "#16a34a";
+
+
+                    message.innerText =
+
+                        "Login successful!";
+
+
+                    setTimeout(
+
+                        () => {
+
+                            window.location.href =
+                                "dashboard.html";
+
+                        },
+
+                        700
+
+                    );
+
+
+                }
+
+
+                catch (error) {
+
+
+                    console.error(error);
+
+
+                    message.style.color =
+                        "#dc2626";
+
+
+                    message.innerText =
+
+                        "Invalid email or password.";
+
+
+                }
+
+
+            }
+
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
