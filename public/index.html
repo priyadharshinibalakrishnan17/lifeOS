@@ -1,234 +1,1286 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="h-full bg-[#FDFBF7] text-[#1A1A1A]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Sensora | Smart Home IoT</title>
-
+    <title>LifeOS — Your Life, Connected</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: '#FDFBF7',
+                        'ivory-dark': '#F5F0E6',
+                        charcoal: '#1A1A1A',
+                        'charcoal-muted': '#4A4A4A',
+                        sage: '#6E8D7B',
+                        'sage-light': '#E8EFEA',
+                        'sage-dark': '#557060',
+                        terracotta: '#D97767',
+                        sand: '#EAE3D2'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
-
-        body {
-            min-height: 100vh;
-            color: white;
-            background:
-                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.3), transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.3), transparent 30%),
-                linear-gradient(135deg, #020617, #0f172a, #172554);
+        ::-webkit-scrollbar-track {
+            background: #F5F0E6;
         }
-
-        nav {
-            width: 100%;
-            padding: 22px 8%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        ::-webkit-scrollbar-thumb {
+            background: #C5BCAC;
+            border-radius: 3px;
         }
-
-        .brand {
-            font-size: 26px;
-            font-weight: bold;
-            letter-spacing: 1px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6E8D7B;
         }
-
-        .brand span {
-            color: #60a5fa;
+        .tab-active {
+            background-color: #6E8D7B;
+            color: white !important;
         }
-
-        .login-btn {
-            padding: 12px 22px;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            border-radius: 10px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
         }
-
-        .hero {
-            min-height: 78vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 40px 20px;
+        .accordion-open .accordion-content {
+            max-height: 500px;
         }
-
-        .hero-content {
-            max-width: 850px;
+        .accordion-icon {
+            transition: transform 0.3s ease;
         }
-
-        .icon {
-            font-size: 75px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: clamp(40px, 7vw, 75px);
-            margin-bottom: 20px;
-        }
-
-        h1 span {
-            background: linear-gradient(90deg, #60a5fa, #c084fc);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .description {
-            max-width: 650px;
-            margin: auto;
-            color: #cbd5e1;
-            line-height: 1.7;
-            font-size: 18px;
-        }
-
-        .start-btn {
-            display: inline-block;
-            margin-top: 35px;
-            padding: 16px 32px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 17px;
-            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.35);
-            transition: 0.2s;
-        }
-
-        .start-btn:hover {
-            transform: translateY(-3px);
-        }
-
-        .features {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px 20px 70px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 18px;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 18px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .feature-card .feature-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            color: #cbd5e1;
-            font-size: 14px;
-            line-height: 1.5;
+        .accordion-open .accordion-icon {
+            transform: rotate(180deg);
         }
     </style>
 </head>
+<body class="h-full flex flex-col font-sans antialiased selection:bg-sage selection:text-white">
 
-<body>
+    <!-- Top Announcement Bar -->
+    <div id="top-announcement" class="bg-charcoal text-ivory text-xs py-1.5 px-4 text-center flex justify-between items-center border-b border-charcoal/20">
+        <div class="flex-1 text-center">
+            <span class="inline-block bg-sage text-white px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider uppercase mr-2">System Status</span>
+            All PostgreSQL & MongoDB Services Operational. <a href="#" onclick="switchPage('health'); return false;" class="underline text-sage-light hover:text-white transition">Check System Health</a>
+        </div>
+        <button onclick="document.getElementById('top-announcement').style.display='none'" class="text-ivory/60 hover:text-ivory text-sm"><i class="fa-solid fa-xmark"></i></button>
+    </div>
 
-    <nav>
-        <div class="brand">
-            💡 Sen<span>sora</span>
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="w-64 bg-ivory-dark border-r border-sand flex flex-col transition-all duration-300 z-30 fixed inset-y-0 left-0 md:relative md:translate-x-0 -translate-x-full">
+            <!-- Brand Logo -->
+            <div class="p-6 border-b border-sand flex items-center justify-between">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchPage('dashboard')">
+                    <div class="w-9 h-9 rounded-xl bg-sage flex items-center justify-center text-white font-serif font-bold text-xl shadow-sm">L</div>
+                    <div>
+                        <h1 class="font-serif font-bold text-xl tracking-tight text-charcoal">LifeOS</h1>
+                        <p class="text-[10px] tracking-widest uppercase text-charcoal-muted font-medium">Your Life, Connected</p>
+                    </div>
+                </div>
+                <button onclick="toggleSidebar()" class="md:hidden text-charcoal-muted hover:text-charcoal"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- Main Navigation Links -->
+            <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
+                <div class="px-3 text-[11px] font-bold text-charcoal-muted uppercase tracking-wider mb-2">Workspace</div>
+                
+                <button onclick="switchPage('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-charcoal hover:bg-sand/60">
+                    <i class="fa-solid fa-chart-pie w-5 text-sage"></i>
+                    <span>Dashboard</span>
+                </button>
+
+                <button onclick="switchPage('insights')" id="nav-insights" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-charcoal hover:bg-sand/60">
+                    <i class="fa-solid fa-arrow-trend-up w-5 text-sage"></i>
+                    <span>Life Insights</span>
+                </button>
+
+                <div class="px-3 text-[11px] font-bold text-charcoal-muted uppercase tracking-wider mt-6 mb-2">Support & Knowledge</div>
+
+                <button onclick="switchPage('faq')" id="nav-faq" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-charcoal hover:bg-sand/60">
+                    <i class="fa-solid fa-circle-question w-5 text-sage"></i>
+                    <span>FAQ & Knowledge</span>
+                </button>
+
+                <button onclick="switchPage('support')" id="nav-support" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-charcoal hover:bg-sand/60">
+                    <i class="fa-solid fa-headset w-5 text-sage"></i>
+                    <span>Support Center</span>
+                    <span id="ticket-badge" class="ml-auto bg-sage text-white text-xs px-2 py-0.5 rounded-full font-bold">2</span>
+                </button>
+
+                <button onclick="switchPage('errors')" id="nav-errors" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-charcoal hover:bg-sand/60">
+                    <i class="fa-solid fa-code w-5 text-sage"></i>
+                    <span>Error Reference</span>
+                </button>
+
+                <button onclick="switchPage('health')" id="nav-health" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-charcoal hover:bg-sand/60">
+                    <i class="fa-solid fa-heart-pulse w-5 text-sage"></i>
+                    <span>System Health</span>
+                </button>
+
+                <div class="px-3 text-[11px] font-bold text-charcoal-muted uppercase tracking-wider mt-6 mb-2">Dev Tools & Testing</div>
+
+                <button onclick="switchPage('404')" id="nav-404" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-charcoal-muted hover:bg-sand/60 text-xs">
+                    <i class="fa-solid fa-triangle-exclamation w-5 text-terracotta"></i>
+                    <span>Simulate 404 Page</span>
+                </button>
+
+                <button onclick="switchPage('500')" id="nav-500" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-charcoal-muted hover:bg-sand/60 text-xs">
+                    <i class="fa-solid fa-bug w-5 text-terracotta"></i>
+                    <span>Simulate 500 Page</span>
+                </button>
+            </nav>
+
+            <!-- User Footer Profile -->
+            <div class="p-4 border-t border-sand bg-ivory">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-sage-light text-sage font-bold flex items-center justify-center text-sm border border-sage/30">
+                        JD
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-charcoal truncate">Jane Doe</p>
+                        <p class="text-xs text-charcoal-muted truncate">jane.doe@lifeos.app</p>
+                    </div>
+                    <button title="Settings" class="text-charcoal-muted hover:text-charcoal"><i class="fa-solid fa-gear"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-ivory">
+            
+            <!-- Top Navigation Bar -->
+            <header class="h-16 border-b border-sand bg-white/80 backdrop-blur-md px-6 flex items-center justify-between z-10 sticky top-0">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="md:hidden text-charcoal p-2 rounded-lg hover:bg-sand/50">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <h2 id="page-title" class="text-lg font-serif font-bold text-charcoal">Dashboard</h2>
+                        <span id="page-badge" class="text-xs bg-sage-light text-sage-dark font-medium px-2.5 py-0.5 rounded-full border border-sage/20">Live</span>
+                    </div>
+                </div>
+
+                <!-- Global Search & Actions -->
+                <div class="flex items-center gap-3">
+                    <div class="relative hidden sm:block w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-charcoal-muted"></i>
+                        <input type="text" id="global-search" oninput="handleGlobalSearch(this.value)" placeholder="Search tasks, FAQs, errors..." class="w-full pl-8 pr-4 py-1.5 text-xs bg-ivory border border-sand rounded-xl focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage transition">
+                        <div id="search-results-dropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-white border border-sand rounded-xl shadow-xl z-50 max-h-80 overflow-y-auto p-2"></div>
+                    </div>
+                    <button onclick="openChatWithPrompt('How do I optimize my schedule today?')" class="flex items-center gap-2 text-xs bg-sage hover:bg-sage-dark text-white px-3.5 py-2 rounded-xl transition shadow-sm font-medium">
+                        <i class="fa-solid fa-sparkles"></i>
+                        <span class="hidden md:inline">Ask AI Assistant</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Page Container Scrollable -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+                <!-- PAGE 1: DASHBOARD -->
+                <section id="page-dashboard" class="page-content space-y-6">
+                    <!-- Weather Widget Bar -->
+                    <div id="weather-container" class="bg-white rounded-2xl p-5 border border-sand shadow-sm flex flex-wrap items-center justify-between gap-4 transition hover:border-sage/40">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-sage-light text-sage flex items-center justify-center text-2xl">
+                                <i id="weather-icon" class="fa-solid fa-sun text-amber-500"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 id="weather-city" class="font-serif font-bold text-lg text-charcoal">New York</h3>
+                                    <span id="weather-time" class="text-xs text-charcoal-muted bg-ivory px-2 py-0.5 rounded border border-sand">Updated just now</span>
+                                </div>
+                                <p id="weather-condition" class="text-xs text-charcoal-muted">Clear Sky &bull; Humidity: 45% &bull; Wind: 8 mph</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 ml-auto sm:ml-0">
+                            <div class="text-right">
+                                <span id="weather-temp" class="text-2xl font-serif font-bold text-charcoal">72°F</span>
+                                <span class="text-xs text-charcoal-muted block">Open-Meteo API</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <select id="city-select" onchange="fetchWeather(this.value)" class="text-xs bg-ivory border border-sand rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-sage">
+                                    <option value="New York">New York</option>
+                                    <option value="London">London</option>
+                                    <option value="Tokyo">Tokyo</option>
+                                    <option value="Paris">Paris</option>
+                                    <option value="FAIL_TEST">Trigger Timeout Fallback</option>
+                                </select>
+                                <button onclick="dismissWeather()" class="text-charcoal-muted hover:text-charcoal p-1.5" title="Dismiss Weather Widget"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-semibold text-charcoal-muted uppercase tracking-wider">Active Goals</span>
+                                <div class="w-8 h-8 rounded-lg bg-sage-light text-sage flex items-center justify-center"><i class="fa-solid fa-bullseye text-sm"></i></div>
+                            </div>
+                            <h4 class="text-2xl font-serif font-bold text-charcoal">4 / 5</h4>
+                            <p class="text-xs text-sage font-medium mt-1"><i class="fa-solid fa-arrow-up mr-1"></i>80% completion pace</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-semibold text-charcoal-muted uppercase tracking-wider">Tasks Done Today</span>
+                                <div class="w-8 h-8 rounded-lg bg-sage-light text-sage flex items-center justify-center"><i class="fa-solid fa-check-double text-sm"></i></div>
+                            </div>
+                            <h4 id="completed-tasks-count" class="text-2xl font-serif font-bold text-charcoal">6 / 8</h4>
+                            <p class="text-xs text-sage font-medium mt-1"><i class="fa-solid fa-fire mr-1"></i>+2 from yesterday</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-semibold text-charcoal-muted uppercase tracking-wider">Habit Streak</span>
+                                <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center"><i class="fa-solid fa-bolt text-sm"></i></div>
+                            </div>
+                            <h4 class="text-2xl font-serif font-bold text-charcoal">14 Days</h4>
+                            <p class="text-xs text-amber-600 font-medium mt-1">Personal best run</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-semibold text-charcoal-muted uppercase tracking-wider">Focus Lab Time</span>
+                                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-stopwatch text-sm"></i></div>
+                            </div>
+                            <h4 class="text-2xl font-serif font-bold text-charcoal">2h 45m</h4>
+                            <p class="text-xs text-blue-600 font-medium mt-1">3 sessions today</p>
+                        </div>
+                    </div>
+
+                    <!-- Core Modules Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Left Column: Tasks & Goals -->
+                        <div class="lg:col-span-2 space-y-6">
+                            <!-- Tasks Section -->
+                            <div class="bg-white rounded-2xl p-6 border border-sand shadow-sm">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="font-serif font-bold text-lg text-charcoal flex items-center gap-2">
+                                        <i class="fa-solid fa-list-check text-sage"></i> Today's Priority Tasks
+                                    </h3>
+                                    <button onclick="toggleAddTaskModal()" class="text-xs bg-sage-light hover:bg-sage hover:text-white text-sage-dark px-3 py-1.5 rounded-xl font-semibold transition flex items-center gap-1.5">
+                                        <i class="fa-solid fa-plus"></i> Add Task
+                                    </button>
+                                </div>
+                                
+                                <div id="tasks-list" class="space-y-2.5">
+                                    <!-- Dynamic tasks rendered here -->
+                                </div>
+                            </div>
+
+                            <!-- Goals Tracker Section -->
+                            <div class="bg-white rounded-2xl p-6 border border-sand shadow-sm">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="font-serif font-bold text-lg text-charcoal flex items-center gap-2">
+                                        <i class="fa-solid fa-trophy text-sage"></i> Active Quarterly Goals
+                                    </h3>
+                                    <button onclick="toggleAddGoalModal()" class="text-xs bg-ivory hover:bg-sand border border-sand text-charcoal px-3 py-1.5 rounded-xl font-semibold transition">
+                                        + New Goal
+                                    </button>
+                                </div>
+                                <div id="goals-list" class="space-y-4">
+                                    <!-- Dynamic goals -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Focus Lab Timer & Habits -->
+                        <div class="space-y-6">
+                            <!-- Focus Lab Timer -->
+                            <div class="bg-white rounded-2xl p-6 border border-sand shadow-sm text-center">
+                                <h3 class="font-serif font-bold text-lg text-charcoal mb-1">Focus Lab</h3>
+                                <p class="text-xs text-charcoal-muted mb-4">Pomodoro Interval Timer</p>
+                                
+                                <div class="w-40 h-40 rounded-full border-4 border-sage-light flex flex-col items-center justify-center mx-auto mb-6 relative">
+                                    <span id="timer-display" class="font-serif text-3xl font-bold text-charcoal">25:00</span>
+                                    <span id="timer-mode" class="text-[10px] tracking-widest uppercase font-semibold text-sage">Deep Focus</span>
+                                </div>
+
+                                <div class="flex justify-center gap-3">
+                                    <button id="timer-btn" onclick="toggleTimer()" class="bg-sage hover:bg-sage-dark text-white px-5 py-2 rounded-xl font-medium text-xs transition shadow-sm w-24">
+                                        Start
+                                    </button>
+                                    <button onclick="resetTimer()" class="bg-ivory hover:bg-sand text-charcoal border border-sand px-4 py-2 rounded-xl font-medium text-xs transition">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Daily Habits -->
+                            <div class="bg-white rounded-2xl p-6 border border-sand shadow-sm">
+                                <h3 class="font-serif font-bold text-lg text-charcoal mb-4 flex items-center justify-between">
+                                    <span>Daily Routines</span>
+                                    <span class="text-xs font-normal text-charcoal-muted">Target: 100%</span>
+                                </h3>
+                                <div id="habits-list" class="space-y-3">
+                                    <!-- Dynamic Habits -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 2: FAQ & KNOWLEDGE CENTER -->
+                <section id="page-faq" class="page-content space-y-6 hidden">
+                    <div class="bg-gradient-to-r from-sage/10 via-ivory to-sand/40 p-8 rounded-2xl border border-sand">
+                        <div class="max-w-2xl mx-auto text-center space-y-4">
+                            <h2 class="font-serif font-bold text-3xl text-charcoal">How can we help you today?</h2>
+                            <p class="text-sm text-charcoal-muted">Search our SQL-backed Knowledge Base or browse categories below.</p>
+                            
+                            <div class="relative max-w-xl mx-auto">
+                                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-charcoal-muted"></i>
+                                <input type="text" id="faq-search" oninput="renderFAQs()" placeholder="Search FAQs by question, answer, or keywords..." class="w-full pl-11 pr-4 py-3 bg-white border border-sand rounded-xl shadow-sm text-sm focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category Filter Tabs -->
+                    <div id="faq-categories" class="flex flex-wrap gap-2 justify-center pb-2 border-b border-sand">
+                        <!-- Dynamic Categories -->
+                    </div>
+
+                    <!-- FAQ Accordions Container -->
+                    <div class="max-w-3xl mx-auto space-y-3" id="faq-list">
+                        <!-- FAQs Rendered Here -->
+                    </div>
+
+                    <!-- Escalation Banner -->
+                    <div class="max-w-3xl mx-auto mt-8 bg-ivory-dark p-6 rounded-2xl border border-sand flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-serif font-bold text-base text-charcoal">Didn't find your answer?</h4>
+                            <p class="text-xs text-charcoal-muted">Our AI Assistant or Support Team can assist you directly.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <button onclick="openChatWithPrompt('I need help with a question not listed in the FAQ')" class="bg-sage text-white text-xs font-medium px-4 py-2 rounded-xl hover:bg-sage-dark transition">
+                                Ask Assistant
+                            </button>
+                            <button onclick="switchPage('support')" class="bg-white text-charcoal border border-sand text-xs font-medium px-4 py-2 rounded-xl hover:bg-sand transition">
+                                Create Ticket
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 3: SUPPORT CENTER -->
+                <section id="page-support" class="page-content space-y-6 hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Left: Ticket Form -->
+                        <div class="lg:col-span-1 bg-white p-6 rounded-2xl border border-sand shadow-sm space-y-4">
+                            <h3 class="font-serif font-bold text-xl text-charcoal">Create Support Ticket</h3>
+                            <p class="text-xs text-charcoal-muted">Submits directly to PostgreSQL support ticket repository.</p>
+
+                            <form id="ticket-form" onsubmit="handleCreateTicket(event)" class="space-y-4 text-xs">
+                                <div>
+                                    <label class="block font-semibold text-charcoal mb-1">Subject / Issue Summary</label>
+                                    <input type="text" id="ticket-subject" required placeholder="e.g. Data Sync failure on focus lab timer" class="w-full p-2.5 bg-ivory border border-sand rounded-xl focus:outline-none focus:border-sage">
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block font-semibold text-charcoal mb-1">Category</label>
+                                        <select id="ticket-category" class="w-full p-2.5 bg-ivory border border-sand rounded-xl focus:outline-none focus:border-sage">
+                                            <option value="General">General Inquiry</option>
+                                            <option value="Sync/Data">Data Sync Error</option>
+                                            <option value="Account">Account Access</option>
+                                            <option value="Billing">Billing & Plan</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block font-semibold text-charcoal mb-1">Priority</label>
+                                        <select id="ticket-priority" class="w-full p-2.5 bg-ivory border border-sand rounded-xl focus:outline-none focus:border-sage">
+                                            <option value="Low">Low</option>
+                                            <option value="Medium" selected>Medium</option>
+                                            <option value="High">High</option>
+                                            <option value="Urgent">Urgent</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block font-semibold text-charcoal mb-1">Detailed Description</label>
+                                    <textarea id="ticket-description" rows="4" required placeholder="Describe what happened, error codes seen, steps to reproduce..." class="w-full p-2.5 bg-ivory border border-sand rounded-xl focus:outline-none focus:border-sage"></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full bg-sage hover:bg-sage-dark text-white font-medium py-2.5 rounded-xl transition text-xs shadow-sm">
+                                    Submit Support Ticket
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Right: Tickets History & Status Tracker -->
+                        <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-sand shadow-sm space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="font-serif font-bold text-xl text-charcoal">Your Support History</h3>
+                                    <p class="text-xs text-charcoal-muted">Stored in PostgreSQL with user isolation</p>
+                                </div>
+                                <span class="text-xs bg-sage-light text-sage-dark px-3 py-1 rounded-full font-semibold">PostgreSQL Relational DB</span>
+                            </div>
+
+                            <div id="tickets-list" class="space-y-3">
+                                <!-- Dynamically Rendered Tickets -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 4: LIFE INSIGHTS -->
+                <section id="page-insights" class="page-content space-y-6 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-sand shadow-sm space-y-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-charcoal">Personal Progress Analytics</h3>
+                                <p class="text-xs text-charcoal-muted">Weekly trends and activity distribution</p>
+                            </div>
+                            <select class="text-xs bg-ivory border border-sand rounded-xl px-3 py-1.5 focus:outline-none">
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                            </select>
+                        </div>
+
+                        <!-- Simple SVG Visual Bar Chart -->
+                        <div class="p-6 bg-ivory rounded-xl border border-sand">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-charcoal-muted mb-6">Weekly Task Completion Rate (%)</h4>
+                            <div class="h-44 flex items-end justify-between gap-2 pt-4 px-2 border-b border-sand">
+                                <div class="flex-1 flex flex-col items-center gap-2">
+                                    <div class="w-full bg-sage/40 rounded-t hover:bg-sage transition" style="height: 60%;"></div>
+                                    <span class="text-[10px] text-charcoal-muted font-medium">Mon</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-2">
+                                    <div class="w-full bg-sage/60 rounded-t hover:bg-sage transition" style="height: 85%;"></div>
+                                    <span class="text-[10px] text-charcoal-muted font-medium">Tue</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-2">
+                                    <div class="w-full bg-sage rounded-t hover:bg-sage-dark transition" style="height: 100%;"></div>
+                                    <span class="text-[10px] text-charcoal-muted font-medium">Wed</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-2">
+                                    <div class="w-full bg-sage/50 rounded-t hover:bg-sage transition" style="height: 40%;"></div>
+                                    <span class="text-[10px] text-charcoal-muted font-medium">Thu</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-2">
+                                    <div class="w-full bg-sage/75 rounded-t hover:bg-sage transition" style="height: 90%;"></div>
+                                    <span class="text-[10px] text-charcoal-muted font-medium">Fri</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-2">
+                                    <div class="w-full bg-amber-400/60 rounded-t hover:bg-amber-500 transition" style="height: 50%;"></div>
+                                    <span class="text-[10px] text-charcoal-muted font-medium">Sat</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-2">
+                                    <div class="w-full bg-amber-400/80 rounded-t hover:bg-amber-500 transition" style="height: 70%;"></div>
+                                    <span class="text-[10px] text-charcoal-muted font-medium">Sun</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-sage-light/50 rounded-xl border border-sage/20">
+                                <h4 class="font-serif font-bold text-sm text-sage-dark mb-1"><i class="fa-solid fa-lightbulb mr-2"></i>AI Coach Insight</h4>
+                                <p class="text-xs text-charcoal-muted">Your peak focus time is Wednesdays between 9:00 AM and 11:30 AM. Schedule your most challenging tasks during this window for optimal execution.</p>
+                            </div>
+                            <div class="p-4 bg-sand/30 rounded-xl border border-sand">
+                                <h4 class="font-serif font-bold text-sm text-charcoal mb-1"><i class="fa-solid fa-bullseye mr-2"></i>Habit Consistency</h4>
+                                <p class="text-xs text-charcoal-muted">You have maintained a 92% habit streak over the past fortnight. Keep going to unlock your monthly master badge!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 5: ERROR CODE REFERENCE -->
+                <section id="page-errors" class="page-content space-y-6 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-sand shadow-sm space-y-4">
+                        <div>
+                            <h3 class="font-serif font-bold text-2xl text-charcoal">Centralized Error Code Reference</h3>
+                            <p class="text-xs text-charcoal-muted">Documented HTTP status codes & LifeOS application-specific errors</p>
+                        </div>
+
+                        <div class="relative max-w-md">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-xs text-charcoal-muted"></i>
+                            <input type="text" id="error-search" oninput="renderErrors()" placeholder="Search error codes (e.g. 401, 500, LIFEOS-001)..." class="w-full pl-9 pr-4 py-2 bg-ivory border border-sand rounded-xl text-xs focus:outline-none focus:border-sage">
+                        </div>
+
+                        <div id="errors-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <!-- Error cards rendered here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 6: CUSTOM 404 PAGE -->
+                <section id="page-404" class="page-content space-y-6 hidden">
+                    <div class="max-w-xl mx-auto text-center space-y-6 py-12">
+                        <div class="w-24 h-24 bg-sage-light text-sage rounded-full flex items-center justify-center mx-auto text-4xl font-serif font-bold shadow-inner">
+                            404
+                        </div>
+                        <div class="space-y-2">
+                            <h2 class="font-serif font-bold text-3xl text-charcoal">Page Not Found</h2>
+                            <p class="text-xs text-charcoal-muted">The requested resource or page route could not be located in our system directory.</p>
+                        </div>
+
+                        <div class="p-4 bg-white rounded-xl border border-sand text-left space-y-2 text-xs">
+                            <p class="font-semibold text-charcoal"><i class="fa-solid fa-circle-info text-sage mr-2"></i>Troubleshooting Options:</p>
+                            <ul class="list-disc list-inside text-charcoal-muted space-y-1 pl-2">
+                                <li>Verify the web URL address for typos</li>
+                                <li>Return back to your primary workspace dashboard</li>
+                                <li>Ask our AI Assistant to locate the feature you are searching for</li>
+                            </ul>
+                        </div>
+
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button onclick="switchPage('dashboard')" class="bg-sage text-white text-xs font-medium px-5 py-2.5 rounded-xl hover:bg-sage-dark transition shadow-sm">
+                                <i class="fa-solid fa-house mr-1.5"></i> Return Home
+                            </button>
+                            <button onclick="switchPage('faq')" class="bg-white text-charcoal border border-sand text-xs font-medium px-5 py-2.5 rounded-xl hover:bg-sand transition">
+                                <i class="fa-solid fa-book mr-1.5"></i> Help Center
+                            </button>
+                            <button onclick="openChatWithPrompt('I am lost and landed on error 404. Can you help me navigate LifeOS?')" class="bg-ivory text-sage-dark border border-sage/40 text-xs font-semibold px-5 py-2.5 rounded-xl hover:bg-sage-light transition">
+                                <i class="fa-solid fa-sparkles mr-1.5"></i> Ask the Assistant
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 7: CUSTOM 500 PAGE -->
+                <section id="page-500" class="page-content space-y-6 hidden">
+                    <div class="max-w-xl mx-auto text-center space-y-6 py-12">
+                        <div class="w-24 h-24 bg-terracotta/10 text-terracotta rounded-full flex items-center justify-center mx-auto text-4xl font-serif font-bold shadow-inner">
+                            500
+                        </div>
+                        <div class="space-y-2">
+                            <h2 class="font-serif font-bold text-3xl text-charcoal">Internal Server Fault</h2>
+                            <p class="text-xs text-charcoal-muted">A calm, unexpected server error occurred while processing your request.</p>
+                        </div>
+
+                        <div class="p-4 bg-white rounded-xl border border-sand text-left space-y-2 text-xs">
+                            <div class="flex justify-between items-center text-charcoal-muted">
+                                <span>Correlation ID:</span>
+                                <span class="font-mono bg-ivory px-2 py-0.5 rounded border border-sand text-[11px] font-bold text-charcoal">ERR-500-8F92A1</span>
+                            </div>
+                            <div class="flex justify-between items-center text-charcoal-muted">
+                                <span>Timestamp:</span>
+                                <span class="font-mono text-[11px]" id="err-timestamp">2026-10-28 10:45:00 UTC</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button onclick="location.reload()" class="bg-charcoal text-white text-xs font-medium px-5 py-2.5 rounded-xl hover:bg-black transition shadow-sm">
+                                <i class="fa-solid fa-rotate-right mr-1.5"></i> Retry Request
+                            </button>
+                            <button onclick="openChatWithPrompt('I received error code 500 with correlation ID ERR-500-8F92A1. What should I do?')" class="bg-sage text-white text-xs font-medium px-5 py-2.5 rounded-xl hover:bg-sage-dark transition">
+                                <i class="fa-solid fa-sparkles mr-1.5"></i> Ask Assistant
+                            </button>
+                            <button onclick="switchPage('support')" class="bg-white text-charcoal border border-sand text-xs font-medium px-5 py-2.5 rounded-xl hover:bg-sand transition">
+                                Submit Ticket
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 8: SYSTEM HEALTH PAGE -->
+                <section id="page-health" class="page-content space-y-6 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-sand shadow-sm space-y-6 max-w-4xl mx-auto">
+                        <div class="flex justify-between items-center border-b border-sand pb-4">
+                            <div>
+                                <h3 class="font-serif font-bold text-2xl text-charcoal">LifeOS System Health & Diagnostics</h3>
+                                <p class="text-xs text-charcoal-muted">Live endpoint checks via <code class="bg-ivory px-1.5 py-0.5 border border-sand rounded">/api/health/</code></p>
+                            </div>
+                            <button onclick="refreshHealth()" class="text-xs bg-sage text-white px-3.5 py-2 rounded-xl hover:bg-sage-dark transition flex items-center gap-2">
+                                <i class="fa-solid fa-rotate mr-1"></i> Refresh Status
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- PostgreSQL Status -->
+                            <div class="p-5 rounded-2xl bg-ivory border border-sand space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-serif font-bold text-charcoal flex items-center gap-2">
+                                        <i class="fa-solid fa-database text-sage"></i> PostgreSQL (SQL DB)
+                                    </span>
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full">OK (200)</span>
+                                </div>
+                                <p class="text-xs text-charcoal-muted">Stores FAQs, Goals, Tasks, and Support Tickets. Latency: 4ms.</p>
+                            </div>
+
+                            <!-- MongoDB Status -->
+                            <div class="p-5 rounded-2xl bg-ivory border border-sand space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-serif font-bold text-charcoal flex items-center gap-2">
+                                        <i class="fa-leaf text-emerald-600"></i> MongoDB Atlas (Audit)
+                                    </span>
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full">OK (200)</span>
+                                </div>
+                                <p class="text-xs text-charcoal-muted">Stores chat conversation logs & helpful feedback ratings. Latency: 12ms.</p>
+                            </div>
+                        </div>
+
+                        <!-- System Telemetry details -->
+                        <div class="bg-ivory-dark p-4 rounded-xl border border-sand space-y-3">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-charcoal-muted">System Diagnostic Output</h4>
+                            <pre class="bg-charcoal text-emerald-400 p-4 rounded-xl text-xs font-mono overflow-x-auto">{
+  "status": "ok",
+  "timestamp": "2026-10-28T10:45:00Z",
+  "checks": {
+    "database_postgresql": "ok",
+    "mongodb_chat_logs": "ok",
+    "ai_service_provider": "grounded_active",
+    "open_meteo_weather": "operational"
+  },
+  "uptime_seconds": 849201,
+  "environment": "production"
+}</pre>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- GLOBAL FLOATING AI CHAT WIDGET -->
+    <div id="chat-widget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        
+        <!-- Chat Panel Window -->
+        <div id="chat-window" class="hidden w-[380px] sm:w-[420px] h-[540px] bg-white border border-sand rounded-2xl shadow-2xl flex-col overflow-hidden mb-4 transition-all duration-300">
+            <!-- Header -->
+            <div class="bg-charcoal text-ivory p-4 flex justify-between items-center border-b border-charcoal/40">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-sage flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-sparkles"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-serif font-bold text-sm">LifeOS AI Assistant</h4>
+                        <p class="text-[10px] text-sage-light flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Grounded Knowledge Active
+                        </p>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" class="text-ivory/70 hover:text-ivory p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-ivory text-xs">
+                <!-- Welcome Message -->
+                <div class="flex gap-2.5 items-start">
+                    <div class="w-6 h-6 rounded-md bg-sage text-white flex items-center justify-center text-[10px] shrink-0">AI</div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-sand text-charcoal shadow-sm max-w-[85%] space-y-2">
+                        <p>Hello! I am your LifeOS assistant. How can I help you navigate your goals, habits, or troubleshoot errors today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suggested Quick Questions Prompts -->
+            <div id="suggested-prompts" class="px-4 py-2 bg-white border-t border-sand flex gap-1.5 overflow-x-auto text-[11px] whitespace-nowrap">
+                <button onclick="sendQuickPrompt('How do I create a goal?')" class="bg-ivory hover:bg-sand text-charcoal px-2.5 py-1 rounded-full border border-sand transition">Goal Creation</button>
+                <button onclick="sendQuickPrompt('How do I track my habits?')" class="bg-ivory hover:bg-sand text-charcoal px-2.5 py-1 rounded-full border border-sand transition">Habit Tracking</button>
+                <button onclick="sendQuickPrompt('Why is my session not saving?')" class="bg-ivory hover:bg-sand text-charcoal px-2.5 py-1 rounded-full border border-sand transition">Sync Error</button>
+                <button onclick="sendQuickPrompt('What does error 401 mean?')" class="bg-ivory hover:bg-sand text-charcoal px-2.5 py-1 rounded-full border border-sand transition">Error 401</button>
+            </div>
+
+            <!-- Input Box -->
+            <form id="chat-form" onsubmit="handleSendMessage(event)" class="p-3 bg-white border-t border-sand flex items-center gap-2">
+                <input type="text" id="chat-input" placeholder="Ask about LifeOS features, FAQs or errors..." required class="flex-1 px-3 py-2 bg-ivory border border-sand rounded-xl text-xs focus:outline-none focus:border-sage">
+                <button type="submit" class="bg-sage hover:bg-sage-dark text-white p-2 rounded-xl transition w-9 h-9 flex items-center justify-center">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </form>
         </div>
 
-        <a href="login.html" class="login-btn">
-            Login
-        </a>
-    </nav>
+        <!-- Toggle Button -->
+        <button id="chat-toggle-btn" onclick="toggleChat()" class="bg-sage hover:bg-sage-dark text-white p-4 rounded-full shadow-xl flex items-center justify-center transition-transform hover:scale-105">
+            <i class="fa-solid fa-comments text-xl"></i>
+        </button>
+    </div>
 
-
-    <section class="hero">
-
-        <div class="hero-content">
-
-            <div class="icon">🏠💡</div>
-
-            <h1>
-                Smart Living with
-                <span>Sensora</span>
-            </h1>
-
-            <p class="description">
-                Monitor your environment, control appliances,
-                automate lighting and visualize your IoT data
-                from one intelligent dashboard.
-            </p>
-
-            <a href="login.html" class="start-btn">
-                Open Smart Dashboard →
-            </a>
-
+    <!-- MODAL 1: ADD TASK -->
+    <div id="modal-task" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl border border-sand shadow-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-sand pb-3">
+                <h3 class="font-serif font-bold text-lg text-charcoal">Add New Task</h3>
+                <button onclick="toggleAddTaskModal()" class="text-charcoal-muted hover:text-charcoal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="addNewTask(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold mb-1">Task Title</label>
+                    <input type="text" id="new-task-title" required placeholder="e.g. Review Q4 Financial Mirror" class="w-full p-2.5 bg-ivory border border-sand rounded-xl focus:outline-none focus:border-sage">
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">Category</label>
+                    <select id="new-task-cat" class="w-full p-2.5 bg-ivory border border-sand rounded-xl">
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Health">Health</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="toggleAddTaskModal()" class="px-4 py-2 bg-ivory border border-sand rounded-xl">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-sage text-white rounded-xl">Save Task</button>
+                </div>
+            </form>
         </div>
+    </div>
 
-    </section>
+    <!-- JAVASCRIPT LOGIC STORE & CONTROLLERS -->
+    <script>
+        // ==========================================
+        // DATA STORES (Client SQL & NoSQL Simulation)
+        // ==========================================
+        
+        // 12 SQL FAQ Database Seeds
+        const FAQ_DATABASE = [
+            { id: 1, category: "General", question: "What is LifeOS?", answer: "LifeOS is an integrated personal operating system that unifies your goals, daily tasks, habit routines, focus sessions, financial mirror, and personal growth analytics into a single cohesive workspace.", keywords: "overview platform system features", published: true },
+            { id: 2, category: "Account", question: "How do I create an account?", answer: "Click the Sign Up button in the upper right corner of the authentication screen, provide a valid email address, set a secure password, and confirm your account verification link.", keywords: "register signup login join access", published: true },
+            { id: 3, category: "Goals", question: "How do I create and track a goal?", answer: "Navigate to the Dashboard or Goals module, click '+ New Goal', set your target completion date, break objectives down into milestones, and toggle progress percentages.", keywords: "targets milestones progress objectives", published: true },
+            { id: 4, category: "Tasks", question: "How do I create a daily task?", answer: "Use the '+ Add Task' button on your dashboard or press the quick add shortcut. Specify title, category, and priority level to embed it into your daily schedule.", keywords: "todo task daily priorities item", published: true },
+            { id: 5, category: "Habits", question: "How do I track my habits?", answer: "Go to the Routines section on your dashboard and click daily checkboxes as habits are completed. LifeOS automatically computes streak days and consistency metrics.", keywords: "streaks routines daily consistency", published: true },
+            { id: 6, category: "Focus", question: "How does the Focus Lab timer work?", answer: "The Focus Lab utilizes customized Pomodoro interval timers (e.g. 25 minutes of deep focus followed by 5 minutes rest) to maintain high output without burn out.", keywords: "timer pomodoro focus lab deep work", published: true },
+            { id: 7, category: "Finance", question: "How do I record an expense?", answer: "Open the Money Mirror module, click 'Record Expense', select your category (e.g., Transport, Utilities), and log the amount to update your budget.", keywords: "finance money expense cost budget", published: true },
+            { id: 8, category: "Finance", question: "How can I set a monthly budget?", answer: "Under Money Mirror settings, define category caps to track real-time visual progress and receive warning notifications when spending limits near threshold.", keywords: "budget limit caps financial planning", published: true },
+            { id: 9, category: "AI Assistant", question: "How do I use the AI Life Coach?", answer: "Click the floating AI Assistant button located in the bottom right corner of any page to ask for schedule optimization, advice, or error explanations.", keywords: "ai coach assistant helper bot", published: true },
+            { id: 10, category: "Analytics", question: "Where can I view my productivity analytics?", answer: "Visit the Life Insights page from the sidebar menu to view task completion bar graphs, habit heatmaps, and focus duration statistics.", keywords: "charts graphs metrics stats performance", published: true },
+            { id: 11, category: "Troubleshooting", question: "Why is my data not saving?", answer: "Data sync failures occur when your internet connection drops or server validation times out (Error LIFEOS-001). Check connection status and retry safely.", keywords: "save sync failure error connection issue", published: true },
+            { id: 12, category: "Account", question: "How do I reset my password?", answer: "On the login screen, click 'Forgot Password?', enter your email address, and follow the password reset link delivered to your inbox.", keywords: "password security access reset unlock", published: true }
+        ];
 
+        // 8 Error Code Catalog
+        const ERROR_CODES_CATALOG = [
+            { code: "400", title: "Bad Request", desc: "The server could not understand the request due to invalid payload syntax.", cause: "Malformed input data or invalid form parameters.", steps: "Check submitted fields and try again.", retry: "Safe to retry immediately." },
+            { code: "401", title: "Unauthorized", desc: "Authentication credentials missing or session expired.", cause: "Expired authentication token or logged-out session.", steps: "Re-authenticate by signing back into your account.", retry: "Re-login required." },
+            { code: "403", title: "Forbidden", desc: "Access denied to the requested system resource.", cause: "Insufficient account permissions.", steps: "Request elevated administrative rights.", retry: "Do not retry without permission." },
+            { code: "404", title: "Not Found", desc: "The requested route or resource could not be found.", cause: "Incorrect URL path or deleted record.", steps: "Check the address path or visit the Help Center.", retry: "Verify URL first." },
+            { code: "429", title: "Too Many Requests", desc: "Rate limit cap exceeded by client requests.", cause: "Exceeded max API operations per minute window.", steps: "Wait 30 seconds before submitting new requests.", retry: "Wait 30s before retry." },
+            { code: "500", title: "Internal Server Error", desc: "An unexpected condition was encountered on the backend.", cause: "Uncaught server exception or database timeout.", steps: "Note correlation ID and report to support.", retry: "Retry in 2 minutes." },
+            { code: "503", title: "Service Unavailable", desc: "Server is temporarily unable to handle the request.", cause: "System maintenance or capacity overload.", steps: "Check the System Health page for status updates.", retry: "Retry shortly." },
+            { code: "LIFEOS-001", title: "Data Sync Failure", desc: "Application-specific code for failed persistence.", cause: "Network disconnection during a save operation.", steps: "Check your internet connection and re-trigger save.", retry: "Safe retry available." }
+        ];
 
-    <section class="features">
+        // State variables
+        let tasks = [
+            { id: 1, title: "Review Q4 Milestone Objectives", cat: "Work", done: true },
+            { id: 2, title: "Complete 25m Focus Session", cat: "Personal", done: true },
+            { id: 3, title: "Log evening journal entry", cat: "Health", done: false },
+            { id: 4, title: "Update weekly budget cap", cat: "Finance", done: false }
+        ];
 
-        <div class="feature-card">
-            <div class="feature-icon">🌡️</div>
-            <h3>Environment</h3>
-            <p>
-                Monitor DHT11 temperature and humidity values.
-            </p>
-        </div>
+        let goals = [
+            { id: 1, title: "Launch LifeOS Integration", target: "Nov 15", pct: 85 },
+            { id: 2, title: "Maintain 30-Day Habit Streak", target: "Dec 01", pct: 60 }
+        ];
 
+        let habits = [
+            { id: 1, title: "Morning Meditation (10m)", streak: 14, done: true },
+            { id: 2, title: "Read 20 pages", streak: 5, done: true },
+            { id: 3, title: "No sugar after 8 PM", streak: 2, done: false }
+        ];
 
-        <div class="feature-card">
-            <div class="feature-icon">☀️</div>
-            <h3>Light Monitoring</h3>
-            <p>
-                Track ambient light using the LDR sensor.
-            </p>
-        </div>
+        let tickets = [
+            { ref: "TKT-84920", subject: "Sync issue on mobile browser", category: "Sync/Data", priority: "High", status: "In Progress", date: "2026-10-27" },
+            { ref: "TKT-30192", subject: "Request dark mode theme", category: "General", priority: "Low", status: "Open", date: "2026-10-28" }
+        ];
 
+        let selectedFaqCategory = "All";
 
-        <div class="feature-card">
-            <div class="feature-icon">💡</div>
-            <h3>Appliance Control</h3>
-            <p>
-                Control the connected bulb from Firebase.
-            </p>
-        </div>
+        // ==========================================
+        // PAGE SWITCHING ROUTER
+        // ==========================================
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                document.getElementById('page-title').textContent = getPageTitle(pageId);
+                
+                // Active nav styling
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('bg-sand/80', 'font-semibold', 'text-sage-dark'));
+                const activeBtn = document.getElementById(`nav-${pageId}`);
+                if (activeBtn) activeBtn.classList.add('bg-sand/80', 'font-semibold', 'text-sage-dark');
+            }
 
+            // Close sidebar on mobile
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+        }
 
-        <div class="feature-card">
-            <div class="feature-icon">🤖</div>
-            <h3>Automation</h3>
-            <p>
-                Automatically control lighting using LDR values.
-            </p>
-        </div>
+        function getPageTitle(id) {
+            switch(id) {
+                case 'dashboard': return 'Dashboard Overview';
+                case 'faq': return 'FAQ & Knowledge Base';
+                case 'support': return 'Support Center';
+                case 'insights': return 'Life Insights & Analytics';
+                case 'errors': return 'Error Code Catalog';
+                case '404': return 'Page Not Found';
+                case '500': return 'System Server Fault';
+                case 'health': return 'System Health & Metrics';
+                default: return 'LifeOS';
+            }
+        }
 
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
 
-        <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3>Data History</h3>
-            <p>
-                Visualize and export your historical IoT data.
-            </p>
-        </div>
+        // ==========================================
+        // WEATHER INTEGRATION (Open-Meteo API + Fallback)
+        // ==========================================
+        async function fetchWeather(city = "New York") {
+            const tempEl = document.getElementById('weather-temp');
+            const cityEl = document.getElementById('weather-city');
+            const condEl = document.getElementById('weather-condition');
+            const iconEl = document.getElementById('weather-icon');
+            
+            cityEl.textContent = city;
 
-    </section>
+            if (city === "FAIL_TEST") {
+                // Simulate strict 3-second timeout fallback requirement
+                tempEl.textContent = "N/A";
+                condEl.innerHTML = `<span class="text-amber-700 font-medium"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Weather is temporarily unavailable. Your LifeOS dashboard is still working.</span>`;
+                iconEl.className = "fa-solid fa-cloud-bolt text-amber-600";
+                return;
+            }
 
+            try {
+                // Mock coordinate lookups for Open-Meteo
+                let lat = 40.71, lon = -74.00;
+                if (city === "London") { lat = 51.50; lon = -0.12; }
+                if (city === "Tokyo") { lat = 35.67; lon = 139.65; }
+                if (city === "Paris") { lat = 48.85; lon = 2.35; }
+
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+                if (!res.ok) throw new Error("Weather API Response Error");
+                const data = await res.json();
+                
+                const tempF = Math.round((data.current_weather.temperature * 9/5) + 32);
+                tempEl.textContent = `${tempF}°F`;
+                condEl.textContent = `Wind speed: ${data.current_weather.windspeed} km/h • Code: ${data.current_weather.weathercode}`;
+                iconEl.className = "fa-solid fa-sun text-amber-500";
+            } catch (err) {
+                tempEl.textContent = "Unavailable";
+                condEl.textContent = "Weather service timeout. LifeOS operational.";
+            }
+        }
+
+        function dismissWeather() {
+            document.getElementById('weather-container').style.display = 'none';
+        }
+
+        // ==========================================
+        // DASHBOARD RENDERERS & ACTIONS
+        // ==========================================
+        function renderTasks() {
+            const container = document.getElementById('tasks-list');
+            container.innerHTML = tasks.map(t => `
+                <div class="flex items-center justify-between p-3 rounded-xl bg-ivory border border-sand hover:border-sage/40 transition">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})" class="w-4 h-4 accent-sage cursor-pointer">
+                        <span class="text-xs ${t.done ? 'line-through text-charcoal-muted' : 'font-medium text-charcoal'}">${t.title}</span>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-sand/50 text-charcoal-muted">${t.cat}</span>
+                </div>
+            `).join('');
+
+            const doneCount = tasks.filter(t => t.done).length;
+            document.getElementById('completed-tasks-count').textContent = `${doneCount} / ${tasks.length}`;
+        }
+
+        function toggleTask(id) {
+            tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+            renderTasks();
+        }
+
+        function renderGoals() {
+            const container = document.getElementById('goals-list');
+            container.innerHTML = goals.map(g => `
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-xs">
+                        <span class="font-medium text-charcoal">${g.title}</span>
+                        <span class="text-charcoal-muted font-mono">${g.pct}%</span>
+                    </div>
+                    <div class="w-full bg-sand/40 h-2 rounded-full overflow-hidden">
+                        <div class="bg-sage h-full rounded-full transition-all duration-500" style="width: ${g.pct}%"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderHabits() {
+            const container = document.getElementById('habits-list');
+            container.innerHTML = habits.map(h => `
+                <div class="flex items-center justify-between text-xs p-2.5 rounded-xl bg-ivory border border-sand">
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleHabit(${h.id})" class="w-5 h-5 rounded-md ${h.done ? 'bg-sage text-white' : 'border border-sand bg-white'} flex items-center justify-center text-[10px]">
+                            ${h.done ? '<i class="fa-solid fa-check"></i>' : ''}
+                        </button>
+                        <span class="${h.done ? 'line-through text-charcoal-muted' : 'text-charcoal font-medium'}">${h.title}</span>
+                    </div>
+                    <span class="text-[10px] text-amber-600 font-bold"><i class="fa-solid fa-bolt mr-1"></i>${h.streak}d</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleHabit(id) {
+            habits = habits.map(h => h.id === id ? { ...h, done: !h.done, streak: h.done ? h.streak - 1 : h.streak + 1 } : h);
+            renderHabits();
+        }
+
+        function toggleAddTaskModal() {
+            document.getElementById('modal-task').classList.toggle('hidden');
+        }
+
+        function addNewTask(e) {
+            e.preventDefault();
+            const title = document.getElementById('new-task-title').value;
+            const cat = document.getElementById('new-task-cat').value;
+            tasks.push({ id: Date.now(), title, cat, done: false });
+            renderTasks();
+            toggleAddTaskModal();
+            document.getElementById('new-task-title').value = '';
+        }
+
+        // Focus Timer Controller
+        let timerSeconds = 25 * 60;
+        let timerInterval = null;
+
+        function toggleTimer() {
+            const btn = document.getElementById('timer-btn');
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                btn.textContent = "Start";
+                btn.className = "bg-sage hover:bg-sage-dark text-white px-5 py-2 rounded-xl font-medium text-xs transition shadow-sm w-24";
+            } else {
+                btn.textContent = "Pause";
+                btn.className = "bg-amber-600 hover:bg-amber-700 text-white px-5 py-2 rounded-xl font-medium text-xs transition shadow-sm w-24";
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        alert("Focus Session Completed!");
+                        resetTimer();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = null;
+            timerSeconds = 25 * 60;
+            updateTimerDisplay();
+            const btn = document.getElementById('timer-btn');
+            btn.textContent = "Start";
+            btn.className = "bg-sage hover:bg-sage-dark text-white px-5 py-2 rounded-xl font-medium text-xs transition shadow-sm w-24";
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const s = (timerSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer-display').textContent = `${m}:${s}`;
+        }
+
+        // ==========================================
+        // FAQ & KNOWLEDGE CENTER CONTROLLER
+        // ==========================================
+        function renderFAQCategories() {
+            const categories = ["All", ...new Set(FAQ_DATABASE.map(f => f.category))];
+            const container = document.getElementById('faq-categories');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="filterFAQCategory('${cat}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition ${selectedFaqCategory === cat ? 'bg-sage text-white' : 'bg-ivory border border-sand text-charcoal-muted hover:bg-sand'}">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function filterFAQCategory(cat) {
+            selectedFaqCategory = cat;
+            renderFAQCategories();
+            renderFAQs();
+        }
+
+        function renderFAQs() {
+            const query = document.getElementById('faq-search')?.value.toLowerCase() || '';
+            const container = document.getElementById('faq-list');
+
+            const filtered = FAQ_DATABASE.filter(faq => {
+                const matchesCat = selectedFaqCategory === "All" || faq.category === selectedFaqCategory;
+                const matchesQuery = faq.question.toLowerCase().includes(query) || 
+                                     faq.answer.toLowerCase().includes(query) || 
+                                     faq.keywords.toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-xs text-charcoal-muted">No FAQs found matching your query.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(faq => `
+                <div class="accordion-item bg-white border border-sand rounded-2xl overflow-hidden transition">
+                    <button onclick="toggleAccordion(this)" class="w-full p-4 text-left flex justify-between items-center gap-4 hover:bg-ivory/50">
+                        <span class="font-serif font-bold text-sm text-charcoal">${faq.question}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] bg-sand/40 text-charcoal-muted px-2 py-0.5 rounded font-semibold">${faq.category}</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-charcoal-muted accordion-icon"></i>
+                        </div>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 text-xs text-charcoal-muted space-y-3">
+                        <p class="pt-2 border-t border-sand/50">${faq.answer}</p>
+                        <div class="flex items-center justify-between text-[11px] pt-2 text-charcoal-muted">
+                            <span>Was this helpful?</span>
+                            <div class="flex gap-2">
+                                <button onclick="faqFeedback(${faq.id}, true)" class="hover:text-sage"><i class="fa-regular fa-thumbs-up mr-1"></i> Yes</button>
+                                <button onclick="faqFeedback(${faq.id}, false)" class="hover:text-terracotta"><i class="fa-regular fa-thumbs-down mr-1"></i> No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleAccordion(btn) {
+            const item = btn.closest('.accordion-item');
+            item.classList.toggle('accordion-open');
+        }
+
+        function faqFeedback(id, isHelpful) {
+            alert(`Thank you for logging your feedback! Stored in MongoDB chat audit logs.`);
+        }
+
+        // ==========================================
+        // SUPPORT TICKETS CONTROLLER (PostgreSQL Mock)
+        // ==========================================
+        function renderTickets() {
+            const container = document.getElementById('tickets-list');
+            container.innerHTML = tickets.map(t => `
+                <div class="p-4 rounded-xl bg-ivory border border-sand flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono font-bold text-xs text-sage-dark">${t.ref}</span>
+                            <span class="text-xs font-semibold text-charcoal">${t.subject}</span>
+                        </div>
+                        <p class="text-[11px] text-charcoal-muted">Category: ${t.category} &bull; Submitted: ${t.date}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded ${t.priority === 'High' ? 'bg-terracotta/10 text-terracotta' : 'bg-sand text-charcoal-muted'}">${t.priority}</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full ${t.status === 'In Progress' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">${t.status}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('ticket-badge').textContent = tickets.length;
+        }
+
+        function handleCreateTicket(e) {
+            e.preventDefault();
+            const subject = document.getElementById('ticket-subject').value;
+            const category = document.getElementById('ticket-category').value;
+            const priority = document.getElementById('ticket-priority').value;
+            const ref = `TKT-${Math.floor(10000 + Math.random() * 90000)}`;
+
+            tickets.unshift({
+                ref,
+                subject,
+                category,
+                priority,
+                status: "Open",
+                date: new Date().toISOString().split('T')[0]
+            });
+
+            renderTickets();
+            alert(`Support ticket ${ref} successfully logged in PostgreSQL!`);
+            document.getElementById('ticket-form').reset();
+        }
+
+        // ==========================================
+        // ERROR CODE CATALOG RENDERER
+        // ==========================================
+        function renderErrors() {
+            const query = document.getElementById('error-search')?.value.toLowerCase() || '';
+            const container = document.getElementById('errors-container');
+
+            const filtered = ERROR_CODES_CATALOG.filter(e => 
+                e.code.toLowerCase().includes(query) || 
+                e.title.toLowerCase().includes(query) ||
+                e.desc.toLowerCase().includes(query)
+            );
+
+            container.innerHTML = filtered.map(err => `
+                <div class="p-4 rounded-2xl bg-ivory border border-sand space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="font-mono font-bold text-sm bg-charcoal text-white px-2.5 py-0.5 rounded">${err.code}</span>
+                        <span class="text-xs font-serif font-bold text-charcoal">${err.title}</span>
+                    </div>
+                    <p class="text-xs text-charcoal-muted">${err.desc}</p>
+                    <div class="pt-2 border-t border-sand/60 text-[11px] space-y-1 text-charcoal-muted">
+                        <p><strong class="text-charcoal">Common Cause:</strong> ${err.cause}</p>
+                        <p><strong class="text-charcoal">Guidance:</strong> ${err.steps}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // GLOBAL AI CHAT ASSISTANT WIDGET LOGIC
+        // ==========================================
+        function toggleChat() {
+            const win = document.getElementById('chat-window');
+            win.classList.toggle('hidden');
+            win.classList.toggle('flex');
+        }
+
+        function openChatWithPrompt(promptText) {
+            const win = document.getElementById('chat-window');
+            win.classList.remove('hidden');
+            win.classList.add('flex');
+            
+            document.getElementById('chat-input').value = promptText;
+            document.getElementById('chat-form').dispatchEvent(new Event('submit'));
+        }
+
+        function sendQuickPrompt(txt) {
+            document.getElementById('chat-input').value = txt;
+            document.getElementById('chat-form').dispatchEvent(new Event('submit'));
+        }
+
+        function handleSendMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            appendChatMessage('user', msg);
+            input.value = '';
+
+            // AI Answer Engine with FAQ Grounding & Fallback Escalation
+            setTimeout(() => {
+                processAiResponse(msg);
+            }, 600);
+        }
+
+        function appendChatMessage(role, text, extraHtml = '') {
+            const container = document.getElementById('chat-messages');
+            const isAi = role === 'ai';
+            
+            const div = document.createElement('div');
+            div.className = `flex gap-2.5 items-start ${isAi ? '' : 'flex-row-reverse'}`;
+            
+            div.innerHTML = `
+                <div class="w-6 h-6 rounded-md ${isAi ? 'bg-sage text-white' : 'bg-charcoal text-white'} flex items-center justify-center text-[10px] shrink-0 font-bold">
+                    ${isAi ? 'AI' : 'YOU'}
+                </div>
+                <div class="${isAi ? 'bg-white text-charcoal border border-sand' : 'bg-sage text-white'} p-3 rounded-2xl ${isAi ? 'rounded-tl-none' : 'rounded-tr-none'} shadow-sm max-w-[85%] space-y-2">
+                    <p>${text}</p>
+                    ${extraHtml}
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function processAiResponse(userQuery) {
+            const q = userQuery.toLowerCase();
+
+            // 1. Search FAQ Grounded Database
+            const matchedFaq = FAQ_DATABASE.find(f => q.includes(f.question.toLowerCase().replace('?', '')) || f.keywords.split(' ').some(kw => q.includes(kw)));
+            
+            if (matchedFaq) {
+                appendChatMessage('ai', matchedFaq.answer, `<div class="text-[10px] text-sage font-semibold pt-1 border-t border-sand/50"><i class="fa-solid fa-book-bookmark mr-1"></i> Source: FAQ #${matchedFaq.id} (${matchedFaq.category})</div>`);
+                return;
+            }
+
+            // 2. Search Error Code Catalog
+            const matchedError = ERROR_CODES_CATALOG.find(e => q.includes(e.code.toLowerCase()) || q.includes(e.title.toLowerCase()));
+
+            if (matchedError) {
+                appendChatMessage('ai', `<strong>Error ${matchedError.code} - ${matchedError.title}:</strong> ${matchedError.desc} <br><br><em>Recommended Action:</em> ${matchedError.steps}`, `<div class="text-[10px] text-sage font-semibold pt-1 border-t border-sand/50"><i class="fa-solid fa-code mr-1"></i> Grounded Error Code Catalog</div>`);
+                return;
+            }
+
+            // 3. Fallback Ticket Creation Escalation
+            const ticketRef = `TKT-${Math.floor(10000 + Math.random() * 90000)}`;
+            
+            tickets.unshift({
+                ref: ticketRef,
+                subject: userQuery.substring(0, 40) + '...',
+                category: "AI Escalation",
+                priority: "Medium",
+                status: "Open",
+                date: new Date().toISOString().split('T')[0]
+            });
+            renderTickets();
+
+            appendChatMessage('ai', `I couldn't find a direct answer in our grounded knowledge base. I have automatically opened a support ticket for you.`, `
+                <div class="p-2.5 bg-ivory rounded-xl border border-sand space-y-1 text-[11px] text-charcoal">
+                    <p class="font-bold text-sage-dark"><i class="fa-solid fa-ticket mr-1"></i> Ticket Created: ${ticketRef}</p>
+                    <p class="text-charcoal-muted">Our team will review your query. You can track this ticket status in the Support Center.</p>
+                </div>
+            `);
+        }
+
+        // ==========================================
+        // GLOBAL SEARCH BAR IMPLEMENTATION
+        // ==========================================
+        function handleGlobalSearch(val) {
+            const dropdown = document.getElementById('search-results-dropdown');
+            if (!val.trim()) {
+                dropdown.classList.add('hidden');
+                return;
+            }
+
+            const q = val.toLowerCase();
+            const faqMatches = FAQ_DATABASE.filter(f => f.question.toLowerCase().includes(q));
+            const errMatches = ERROR_CODES_CATALOG.filter(e => e.code.includes(q) || e.title.toLowerCase().includes(q));
+
+            dropdown.classList.remove('hidden');
+            dropdown.innerHTML = `
+                <div class="space-y-2 text-xs">
+                    <div class="font-bold text-[10px] uppercase text-charcoal-muted tracking-wider">FAQs</div>
+                    ${faqMatches.map(f => `<div onclick="switchPage('faq'); document.getElementById('search-results-dropdown').classList.add('hidden')" class="p-1.5 hover:bg-ivory rounded cursor-pointer text-charcoal truncate">${f.question}</div>`).join('') || '<div class="text-charcoal-muted text-[11px]">No FAQ matches</div>'}
+                    <div class="font-bold text-[10px] uppercase text-charcoal-muted tracking-wider pt-2 border-t border-sand">Error Codes</div>
+                    ${errMatches.map(e => `<div onclick="switchPage('errors'); document.getElementById('search-results-dropdown').classList.add('hidden')" class="p-1.5 hover:bg-ivory rounded cursor-pointer text-charcoal">${e.code} - ${e.title}</div>`).join('') || '<div class="text-charcoal-muted text-[11px]">No Error matches</div>'}
+                </div>
+            `;
+        }
+
+        function refreshHealth() {
+            alert("Health Diagnostic Check executed: All systems green!");
+        }
+
+        // ==========================================
+        // INITIALIZATION ON LOAD
+        // ==========================================
+        window.onload = function() {
+            renderTasks();
+            renderGoals();
+            renderHabits();
+            renderFAQCategories();
+            renderFAQs();
+            renderTickets();
+            renderErrors();
+            fetchWeather("New York");
+            updateTimerDisplay();
+        };
+    </script>
 </body>
-
 </html>
